@@ -1,0 +1,6 @@
+{
+  "name": "DERDAB COMPTA – Cabinet d'Expertise Comptable Tanger, Tétouan & Grand Tanger",
+  "description": "DERDAB COMPTA : Cabinet d'expertise comptable, d'audit et de conseil à Tanger, Tétouan et Grand Tanger. Dirigé par Maître Mourad Derdab, membre OEC Maroc.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

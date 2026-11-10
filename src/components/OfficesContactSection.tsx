@@ -8,6 +8,7 @@ import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, MessageSquare, External
 import { getLocalizedLocations } from '../data/localizedData.ts';
 import { SocialLinks } from './SocialLinks.tsx';
 import { useLanguage } from '../context/LanguageContext.tsx';
+import { GoogleMapComponent } from './GoogleMapComponent.tsx';
 
 interface OfficesContactSectionProps {
   onOpenBooking: (serviceName?: string, officeName?: string) => void;
@@ -320,6 +321,9 @@ export const OfficesContactSection: React.FC<OfficesContactSectionProps> = () =>
           </div>
 
         </div>
+
+        {/* Interactive Google Maps Section */}
+        <GoogleMapComponent />
 
       </div>
     </section>

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header.tsx';
 import { Hero } from './components/Hero.tsx';
 import { OurStrengthSection } from './components/OurStrengthSection.tsx';
@@ -20,12 +20,20 @@ import { InteractiveAccordionSection } from './components/InteractiveAccordionSe
 import { CabinetSection } from './components/CabinetSection.tsx';
 import { EnjeuxSection } from './components/EnjeuxSection.tsx';
 import { OfficesContactSection } from './components/OfficesContactSection.tsx';
+import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton.tsx';
 import { LanguageProvider, useLanguage } from './context/LanguageContext.tsx';
 
 function MainAppContent() {
   const { t, isRTL, dir } = useLanguage();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isClientPortalOpen, setIsClientPortalOpen] = useState(false);
+  const [mapsQuotaExceeded, setMapsQuotaExceeded] = useState(false);
+
+  useEffect(() => {
+    const handleQuota = () => setMapsQuotaExceeded(true);
+    window.addEventListener('gmp-quota-exceeded', handleQuota);
+    return () => window.removeEventListener('gmp-quota-exceeded', handleQuota);
+  }, []);
 
   // Prefill values for the booking modal
   const [bookingPrefill, setBookingPrefill] = useState<{
@@ -69,6 +77,24 @@ function MainAppContent() {
         isRTL ? 'font-cairo' : 'font-sans'
       }`}
     >
+      {/* Google Maps Quota Defense Banner (Section 8 Case A) */}
+      {mapsQuotaExceeded && (
+        <div className="bg-amber-50 border-b border-amber-200 text-amber-900 px-4 py-2.5 text-xs md:text-sm text-center sticky top-0 z-50 shadow-sm">
+          <span>
+            Google Maps Platform quota reached. If you are the app owner, visit{' '}
+            <a
+              href="https://developers.google.com/maps/ai/ai-studio?utm_campaign=gmp_mcp_codeassist_v1_aistudio#quota_exceeded_errors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline font-semibold text-amber-950 hover:text-amber-800"
+            >
+              maps developer site
+            </a>{' '}
+            for instructions to update your account.
+          </span>
+        </div>
+      )}
+
       {/* Sticky Header */}
       <Header
         onOpenBooking={() => handleOpenBooking()}
@@ -96,7 +122,8 @@ function MainAppContent() {
           }
         />
 
-        {/* 4. Vos Enjeux : Création CRI 48h, Zone Franche, Changement cabinet */}
+
+        {/* 5. Vos Enjeux : Création CRI 48h, Zone Franche, Changement cabinet */}
         <EnjeuxSection
           onOpenBooking={(serviceName) =>
             handleOpenBooking({ service: serviceName || 'Accompagnement Enjeux Dirigeant' })
@@ -162,6 +189,9 @@ function MainAppContent() {
         isOpen={isClientPortalOpen}
         onClose={() => setIsClientPortalOpen(false)}
       />
+
+      {/* Floating WhatsApp Contact Quick Action Button */}
+      <WhatsAppFloatingButton />
 
       {/* Mobile Floating Action Bar */}
       <nav

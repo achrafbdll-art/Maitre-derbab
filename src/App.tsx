@@ -102,7 +102,7 @@ function MainAppContent() {
         onSelectNav={handleNavigateSection}
       />
 
-      <main className="flex-1 pb-16 sm:pb-0">
+      <main className="flex-1 pb-24 sm:pb-0">
         {/* 1. Hero Section */}
         <Hero
           onOpenBooking={(service) => handleOpenBooking(service ? { service } : undefined)}

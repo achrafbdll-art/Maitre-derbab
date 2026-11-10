@@ -59,7 +59,7 @@ export const GoogleMapComponent: React.FC = () => {
               defaultCenter={TANGER_COORDINATES}
               defaultZoom={16}
               mapId="DEMO_MAP_ID"
-              gestureHandling="greedy"
+              gestureHandling="cooperative"
               disableDefaultUI={false}
               className="w-full h-full"
               internalUsageAttributionIds={['gmp_mcp_codeassist_v1_aistudio']}

@@ -29,7 +29,7 @@ export const WhatsAppFloatingButton: React.FC = () => {
     <div
       className={`fixed z-40 ${
         isRTL ? 'left-4 sm:left-6' : 'right-4 sm:right-6'
-      } bottom-20 sm:bottom-6 flex flex-col ${
+      } bottom-[calc(4.75rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 flex flex-col ${
         isRTL ? 'items-start' : 'items-end'
       } pointer-events-auto`}
       dir={isRTL ? 'rtl' : 'ltr'}

@@ -295,7 +295,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* THE PARALLELOGRAM BUTTON: Soft Mint / Aquamarine color #c5f2f0 with skewed edges */}
             <button
               onClick={onOpenBooking}
-              className="relative inline-flex items-center justify-center px-4 sm:px-7 py-2 sm:py-2.5 min-h-[40px] text-xs sm:text-sm font-bold text-slate-950 bg-[#c5f2f0] hover:bg-[#b0eae7] active:scale-95 transition-all shadow-md group whitespace-nowrap rounded-xs"
+              className="relative inline-flex items-center justify-center px-3.5 sm:px-7 py-2 sm:py-2.5 min-h-[44px] text-xs sm:text-sm font-bold text-slate-950 bg-[#c5f2f0] hover:bg-[#b0eae7] active:scale-95 transition-all shadow-md group whitespace-nowrap rounded-xs"
               style={{
                 transform: isRTL ? 'skewX(12deg)' : 'skewX(-12deg)',
               }}
@@ -326,53 +326,54 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#06111c]/98 backdrop-blur-xl border-b border-white/10 px-5 pt-4 pb-6 space-y-4 text-white shadow-2xl max-h-[85vh] overflow-y-auto overscroll-contain">
+        <div className="lg:hidden bg-[#06111c]/98 backdrop-blur-xl border-b border-white/10 px-5 pt-4 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] space-y-4 text-white shadow-2xl max-h-[85vh] overflow-y-auto overscroll-contain">
           {/* Mobile Language Switcher */}
           <div className="pb-3 border-b border-white/10">
             <LanguageSelector variant="mobile-drawer" />
           </div>
 
-          <div className="flex flex-col space-y-1.5 text-sm font-semibold">
+          <div className="flex flex-col space-y-1 text-sm font-semibold">
             <button
               onClick={() => handleLinkClick('cabinet')}
-              className="text-start py-2.5 border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] transition-colors"
+              className="text-start py-3 min-h-[44px] border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] active:bg-white/5 px-2 rounded-lg transition-colors"
             >
               <span>{t.nav.cabinet} ({t.nav.mouradIntro})</span>
               <span className="text-xs text-slate-400">{isRTL ? '‹' : '›'}</span>
             </button>
             <button
               onClick={() => handleLinkClick('enjeux')}
-              className="text-start py-2.5 border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] transition-colors"
+              className="text-start py-3 min-h-[44px] border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] active:bg-white/5 px-2 rounded-lg transition-colors"
             >
               <span>{t.nav.enjeux} ({t.nav.createBiz})</span>
               <span className="text-xs text-slate-400">{isRTL ? '‹' : '›'}</span>
             </button>
             <button
               onClick={() => handleLinkClick('offres')}
-              className="text-start py-2.5 border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] transition-colors"
+              className="text-start py-3 min-h-[44px] border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] active:bg-white/5 px-2 rounded-lg transition-colors"
             >
               <span>{t.nav.expertises}</span>
               <span className="text-xs text-slate-400">{isRTL ? '‹' : '›'}</span>
             </button>
             <button
               onClick={() => handleLinkClick('evenements-articles')}
-              className="text-start py-2.5 border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] transition-colors"
+              className="text-start py-3 min-h-[44px] border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] active:bg-white/5 px-2 rounded-lg transition-colors"
             >
               <span>{t.nav.eventsArticles}</span>
               <span className="text-xs text-slate-400">{isRTL ? '‹' : '›'}</span>
             </button>
             <button
               onClick={() => handleLinkClick('contact')}
-              className="text-start py-2.5 border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] transition-colors"
+              className="text-start py-3 min-h-[44px] border-b border-white/10 flex items-center justify-between hover:text-[#2dd4bf] active:bg-white/5 px-2 rounded-lg transition-colors"
             >
               <span>{t.nav.officesContact}</span>
               <span className="text-xs text-slate-400">{isRTL ? '‹' : '›'}</span>
             </button>
             <button
               onClick={() => handleLinkClick('faq')}
-              className="text-start py-2 text-slate-300 hover:text-white transition-colors"
+              className="text-start py-3 min-h-[44px] text-slate-300 hover:text-white active:bg-white/5 px-2 rounded-lg transition-colors flex items-center justify-between"
             >
               <span>{t.nav.faq}</span>
+              <span className="text-xs text-slate-400">{isRTL ? '‹' : '›'}</span>
             </button>
           </div>
 

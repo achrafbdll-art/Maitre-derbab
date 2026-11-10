@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext.tsx';
 
 interface HeroProps {
@@ -16,24 +17,138 @@ export const Hero: React.FC<HeroProps> = ({
   onOpenBooking,
 }) => {
   const { t, isRTL } = useLanguage();
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const heroSlides = [
+    {
+      id: 1,
+      image: '/assets/aistudio/image_4cefbb9c.png',
+      alt: 'Cabinet DERDAB COMPTA - Bureaux et accueil officiel Tanger',
+      caption: 'Photo 1 : Accueil & Bureaux Cabinet DERDAB COMPTA',
+      badge: 'Siège Social · Tanger City Center',
+      objectPosition: 'object-[center_22%] lg:object-[center_26%]',
+    },
+    {
+      id: 2,
+      image: '/assets/images/hero_aerial_road_nature_1793216694983.jpg',
+      alt: 'Vue panoramique Grand Tanger et littoral Nord du Maroc',
+      caption: 'Photo 2 : Grand Tanger & Littoral Méditerranéen',
+      badge: 'Région Grand Tanger · Pôle Économique Nord',
+      objectPosition: 'object-center',
+    },
+  ];
+
+  // Auto-scroll slides every 5.5 seconds
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5500);
+    return () => clearInterval(timer);
+  }, [isPaused, heroSlides.length]);
+
+  const handlePrev = () => {
+    setActiveSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+  };
 
   return (
     <section
       id="accueil"
       className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-between pt-28 sm:pt-36 pb-12 sm:pb-16 bg-[#040e17] text-white overflow-hidden scroll-mt-20 sm:scroll-mt-24"
     >
-      {/* Background Image: Cabinet DERDAB COMPTA */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/assets/aistudio/image_4cefbb9c.png"
-          alt="Cabinet Derdab Compta - Bureaux et accueil officiel Tanger & Tétouan"
-          className="w-full h-full object-cover object-[center_22%] lg:object-[center_26%] filter brightness-[0.72] contrast-[1.08]"
-          referrerPolicy="no-referrer"
-          loading="eager"
-        />
-        {/* Cinematic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#040e17]/92 via-[#040e17]/75 to-[#040e17]/55" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#040e17] via-transparent to-[#040e17]/80" />
+      {/* Background Carousel: 2 Photos Défilantes */}
+      <div
+        className="absolute inset-0 z-0 overflow-hidden"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {heroSlides.map((slide, index) => {
+          const isActive = index === activeSlide;
+          return (
+            <div
+              key={slide.id}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
+              }`}
+            >
+              <img
+                src={slide.image}
+                alt={slide.alt}
+                className={`w-full h-full object-cover ${slide.objectPosition} filter brightness-[0.70] contrast-[1.08] transition-transform duration-[7000ms] ease-out ${
+                  isActive ? 'scale-105' : 'scale-100'
+                }`}
+                referrerPolicy="no-referrer"
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            </div>
+          );
+        })}
+
+        {/* Cinematic gradient overlays for contrast & legibility */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#040e17]/95 via-[#040e17]/80 to-[#040e17]/55 pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#040e17] via-transparent to-[#040e17]/85 pointer-events-none" />
+
+        {/* Subtle Carousel Controls (Top Right Floating Badge) */}
+        <div
+          className={`absolute top-20 sm:top-24 ${
+            isRTL ? 'left-4 sm:left-8' : 'right-4 sm:right-8'
+          } z-20 flex items-center gap-2 bg-[#06111c]/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20 text-xs text-white shadow-xl`}
+          dir="ltr"
+        >
+          <button
+            type="button"
+            onClick={handlePrev}
+            className="p-1 rounded-full hover:bg-white/20 active:scale-90 transition-all text-slate-300 hover:text-white cursor-pointer"
+            aria-label="Photo précédente"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+
+          {/* Dots / Indicators */}
+          <div className="flex items-center gap-1.5 px-0.5">
+            {heroSlides.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setActiveSlide(i)}
+                className={`transition-all duration-300 rounded-full cursor-pointer ${
+                  activeSlide === i
+                    ? 'w-5 h-2 bg-[#2dd4bf] shadow-xs'
+                    : 'w-2 h-2 bg-white/40 hover:bg-white/70'
+                }`}
+                aria-label={`Aller à la photo ${i + 1}`}
+              />
+            ))}
+          </div>
+
+          <span className="text-[10px] font-mono font-bold text-slate-300 tracking-wider">
+            0{activeSlide + 1}/0{heroSlides.length}
+          </span>
+
+          <button
+            type="button"
+            onClick={handleNext}
+            className="p-1 rounded-full hover:bg-white/20 active:scale-90 transition-all text-slate-300 hover:text-white cursor-pointer"
+            aria-label="Photo suivante"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {/* Bottom Current Slide Tagline Badge */}
+        <div
+          className={`hidden sm:flex absolute bottom-4 sm:bottom-6 ${
+            isRTL ? 'left-8' : 'right-8'
+          } z-20 items-center gap-2 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/10 text-[11px] text-slate-300 pointer-events-none transition-opacity duration-300`}
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse" />
+          <span className="font-semibold">{heroSlides[activeSlide].badge}</span>
+        </div>
       </div>
 
       {/* Main Content Area */}
